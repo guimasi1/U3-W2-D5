@@ -3,15 +3,22 @@ import MainInfo from "./MainInfo";
 import MoreInfo from "./MoreInfo";
 import FiveDaysForecast from "./FiveDaysForecast";
 
-const ShowWeather = ({ weatherData, weatherData5Days, cityImage, units }) => {
+const ShowWeather = ({
+  weatherData,
+  weatherData5Days,
+  cityImage,
+  units,
+  pollutionData,
+}) => {
   return (
     <div>
       <div>
         <div className="mt-3">
           {weatherData && (
             <MainInfo
-              cityImage={cityImage}
               weatherData={weatherData}
+              pollutionData={pollutionData}
+              cityImage={cityImage}
               units={units}
             />
           )}

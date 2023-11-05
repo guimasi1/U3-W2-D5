@@ -114,6 +114,7 @@ const SearchBar = () => {
   useEffect(() => {
     getWeather();
     getWeather5Days();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [units]);
   const getWeather = async () => {
     try {
@@ -143,7 +144,11 @@ const SearchBar = () => {
   const getWeather5Days = async () => {
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${
+          coordinates.lat
+        }&lon=${coordinates.lon}&appid=${apiKey}&units=${
+          units ? units : "metric"
+        }`
       );
       if (!res.ok) {
         setSpinner(false);
@@ -185,6 +190,28 @@ const SearchBar = () => {
       });
   };
 
+  const [pollutionData, setPollutionData] = useState(null);
+  const getPollutionData = async () => {
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}`
+      );
+      if (!res.ok) {
+        setSpinner(false);
+
+        throw new Error("Something went wrong!");
+      }
+      const data = await res.json();
+      setAlert(false);
+      setSpinner(false);
+      console.log(data.list[0], "pollution data");
+      setPollutionData(data.list[0]);
+      // const [date, time] = data5days.list[0].dt_txt.split(" ");
+    } catch (err) {
+      console.log("An error occurred:", err);
+    }
+  };
+
   //   useEffect(() => {
   //     getWeather5Days();
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -193,7 +220,7 @@ const SearchBar = () => {
   useEffect(() => {
     getWeather();
     getWeather5Days();
-
+    getPollutionData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 
@@ -255,8 +282,9 @@ const SearchBar = () => {
       {!spinner && (
         <ShowWeather
           weatherData={weatherData}
-          cityImage={cityImage}
           weatherData5Days={weatherData5Days}
+          pollutionData={pollutionData}
+          cityImage={cityImage}
           units={units}
         />
       )}
