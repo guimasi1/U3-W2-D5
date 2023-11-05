@@ -1,39 +1,56 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { signal } from "@preact/signals-react";
 import { useEffect, useState } from "react";
-import MainInfo from "./MainInfo";
 import ShowWeather from "./ShowWeather";
 
 const apiKey = "78a17f796cc68d0511d622fe90ba4e4b";
-export const weatherData = signal("");
-export const weatherData5Days = signal([]);
-export const myCoordinates = signal("");
+
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [coordinates, setCoordinates] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData5Days, setWeatherData5days] = useState([]);
 
-  const getCoordinates = async () => {
-    try {
-      const res = await fetch(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=1&appid=${apiKey}`
-      );
-      if (!res.ok) {
-        throw new Error("Something went wrong!");
-      }
-      const data = await res.json();
-      myCoordinates.value = {
-        lat: data[0].lat,
-        lon: data[0].lon,
-      };
-      setCoordinates({
-        lat: data[0].lat,
-        lon: data[0].lon,
+  //   const getCoordinates = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=1&appid=${apiKey}`
+  //       );
+  //       if (!res.ok) {
+  //         throw new Error("Something went wrong!");
+  //       }
+  //       const data = await res.json();
+
+  //       setCoordinates({
+  //         lat: data[0].lat,
+  //         lon: data[0].lon,
+  //       });
+  //     } catch (err) {
+  //       console.log("An error occurred:", err);
+  //     }
+  //   };
+
+  const getCoordinates = () => {
+    fetch(
+      `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=1&appid=${apiKey}`
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Something went wrong!");
+        }
+      })
+      .then((data) => {
+        setCoordinates({
+          lat: data[0].lat,
+          lon: data[0].lon,
+        });
+      })
+      .catch((err) => {
+        console.log("An error occurred:", err);
       });
-    } catch (err) {
-      console.log("An error occurred:", err);
-    }
   };
 
   const getWeather = async () => {
@@ -45,8 +62,8 @@ const SearchBar = () => {
         throw new Error("Something went wrong!");
       }
       const data = await res.json();
-      weatherData.value = data;
       console.log("Data:", data);
+      setWeatherData(data);
     } catch (err) {
       console.log("An error occurred:", err);
     }
@@ -61,16 +78,22 @@ const SearchBar = () => {
         throw new Error("Something went wrong!");
       }
       const data5days = await res.json();
-      weatherData5Days.value = data5days.list;
+      setWeatherData5days(data5days.list);
       // const [date, time] = data5days.list[0].dt_txt.split(" ");
     } catch (err) {
       console.log("An error occurred:", err);
     }
   };
 
+  //   useEffect(() => {
+  //     getWeather5Days();
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, [coordinates]);
+
   useEffect(() => {
     getWeather();
     getWeather5Days();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 
@@ -111,6 +134,10 @@ const SearchBar = () => {
           </Button>
         </div>
       </Form>
+      <ShowWeather
+        weatherData={weatherData}
+        weatherData5Days={weatherData5Days}
+      />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-import { weatherData } from "./SearchBar";
 import Card from "react-bootstrap/Card";
 import {
   Thermometer,
@@ -6,9 +5,7 @@ import {
   ThermometerLow,
 } from "react-bootstrap-icons";
 
-const MainInfo = () => {
-  const weatherToShow = weatherData.value;
-
+const MainInfo = ({ weatherData }) => {
   return (
     <Card className="border border-black ">
       <div className="d-flex justify-content-center ">
@@ -16,43 +13,42 @@ const MainInfo = () => {
       </div>
       <Card.Body>
         <Card.Title className="text-center">
-          <h3>{weatherToShow.name}</h3>
+          <h3>{weatherData.name}</h3>
         </Card.Title>
-        <Card.Text>
-          <div className="d-flex justify-content-center">
-            <img
-              src={`https://openweathermap.org/img/wn/${weatherToShow.weather[0].icon}@2x.png`}
-              alt=""
-            />
+        <div className="d-flex justify-content-center">
+          <img
+            src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+            alt=""
+          />
+        </div>
+
+        <h6 className="text-center">
+          {weatherData.weather[0].description.charAt(0).toUpperCase() +
+            weatherData.weather[0].description.slice(1)}
+        </h6>
+        <div className="text-center flex-grow-1 ">
+          Current temperature: <br />
+          <div className="d-flex align-items-center justify-content-center mt-1 ">
+            <Thermometer />
+            {weatherData.main.temp}° C
           </div>
-          <h6 className="text-center">
-            {weatherToShow.weather[0].description.charAt(0).toUpperCase() +
-              weatherToShow.weather[0].description.slice(1)}
-          </h6>
-          <div className="text-center flex-grow-1 ">
-            Current temperature: <br />
+        </div>
+        <div className="d-flex justify-content-around">
+          <div className="text-center">
+            Min <br />
             <div className="d-flex align-items-center justify-content-center mt-1 ">
-              <Thermometer />
-              {weatherToShow.main.temp}° C
+              <ThermometerLow id="low-temperature" />
+              {weatherData.main.temp_min}°C
             </div>
           </div>
-          <div className="d-flex justify-content-around">
-            <div className="text-center">
-              Min <br />
-              <div className="d-flex align-items-center justify-content-center mt-1 ">
-                <ThermometerLow />
-                {weatherToShow.main.temp_min}°C
-              </div>
-            </div>
-            <div className="text-center">
-              Max <br />
-              <div className="d-flex align-items-center justify-content-center mt-1 ">
-                <ThermometerHigh />
-                {weatherToShow.main.temp_max}°C
-              </div>
+          <div className="text-center">
+            Max <br />
+            <div className="d-flex align-items-center justify-content-center mt-1 ">
+              <ThermometerHigh id="high-temperature" />
+              {weatherData.main.temp_max}°C
             </div>
           </div>
-        </Card.Text>
+        </div>
       </Card.Body>
     </Card>
   );

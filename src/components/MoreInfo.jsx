@@ -1,4 +1,3 @@
-import { weatherData } from "./SearchBar";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -14,11 +13,10 @@ import {
   Wind,
 } from "react-bootstrap-icons";
 
-const MoreInfo = () => {
-  const weatherToShow = weatherData.value;
+const MoreInfo = ({ weatherData }) => {
   const formatTime = (num) => (num < 10 ? "0" + num : num);
-  const timestamp = weatherToShow.sys.sunrise * 1000;
-  const timestamp2 = weatherToShow.sys.sunset * 1000;
+  const timestamp = weatherData.sys.sunrise * 1000;
+  const timestamp2 = weatherData.sys.sunset * 1000;
   const date = new Date(timestamp);
   const date2 = new Date(timestamp2);
 
@@ -40,22 +38,22 @@ const MoreInfo = () => {
           <ListGroup>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
-                <DropletFill className="mb-1" /> Umidity:
+                <DropletFill className="mb-1" /> Humidity:
               </span>{" "}
-              <span>{weatherToShow.main.humidity} %</span>
+              <span>{weatherData.main.humidity} %</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <ArrowsCollapse className="mb-1" /> Pressure:
               </span>{" "}
-              <span>{weatherToShow.main.pressure} hPa</span>
+              <span>{weatherData.main.pressure} hPa</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <EyeFill className="mb-1 me-1 " />
                 Visibility:
               </span>{" "}
-              <span>{weatherToShow.visibility / 1000} km</span>
+              <span>{weatherData.visibility / 1000} km</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
@@ -75,21 +73,21 @@ const MoreInfo = () => {
                 <CloudsFill className="mb-1 me-1" />
                 Cloudiness:
               </span>{" "}
-              <span>{weatherToShow.clouds.all} %</span>
+              <span>{weatherData.clouds.all} %</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <Wind className="mb-1 me-1" />
                 Wind:
               </span>{" "}
-              <span>{weatherToShow.wind.speed} m/s</span>
+              <span>{weatherData.wind.speed} m/s</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <ThermometerHalf className="mb-1 me-1" />
                 Feels like:
               </span>{" "}
-              <span> {weatherToShow.main.feels_like}°C</span>
+              <span> {weatherData.main.feels_like}°C</span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
