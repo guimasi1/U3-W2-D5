@@ -52,7 +52,7 @@ const FiveDaysForecast = ({ weatherData5Days, units }) => {
           </Button>
         ))}
       </ButtonGroup>
-      <Col id="forecast-display" className="shadow-effect">
+      <Col id="forecast-display" className="shadow-effect mx-2">
         {!selectedDate && (
           <ListGroup>
             {weatherData5Days.map((day) => (

@@ -34,7 +34,7 @@ const MoreInfo = ({ weatherData, units }) => {
           </div>
         </Col>
 
-        <Col className="my-3 py-1">
+        <Col xs={12} md={6} className="my-3 py-1">
           <ListGroup className="shadow-effect">
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
@@ -66,7 +66,7 @@ const MoreInfo = ({ weatherData, units }) => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
-        <Col className="my-3 py-1">
+        <Col xs={12} md={6} className="my-3 py-1">
           <ListGroup className="shadow-effect">
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>

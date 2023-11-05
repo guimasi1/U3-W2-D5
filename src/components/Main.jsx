@@ -16,14 +16,6 @@ const Main = () => {
             <SearchBar2 />
           </Col>
         </Row>
-        <Row className="my-3">
-          <Col xs={12} lg={{ span: 8, offset: 2 }}>
-            {/* <ShowWeather /> */}
-          </Col>
-          <Col xs={12} lg={{ span: 8, offset: 2 }}>
-            {/* <FiveDaysForecast /> */}
-          </Col>
-        </Row>
       </Container>
     </div>
   );

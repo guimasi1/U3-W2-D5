@@ -266,6 +266,7 @@ const SearchBar = () => {
           </Button>
         </div>
       </Form>
+
       <CitiesDropdown
         handleCitySelect={handleCitySelect}
         favouriteCities={favouriteCities}
