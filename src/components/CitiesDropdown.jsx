@@ -14,11 +14,10 @@ const CitiesDropdown = ({ favouriteCities, handleCitySelect }) => {
     const city = e.target.value;
     setSelectedCity(city);
     handleCitySelect(city);
-    console.log("ciao");
   };
   return (
-    <div className="mb-5 ">
-      <h4 className="text-center mt-4">Your favourite cities</h4>
+    <div className="mb-3 ">
+      <h4 className="text-center mt-3">Your favourite cities</h4>
       <Form.Select
         aria-label="Default select example"
         onChange={handleCityChange}

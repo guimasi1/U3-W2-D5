@@ -1,15 +1,9 @@
-import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom/";
 
 const MyNavbar = () => {
-  const [username, setUsername] = useState(() => {
-    const saved = localStorage.getItem("username");
-    return saved || "Save your username";
-  });
-
   return (
     <Navbar expand="lg" className="bg-blue-dark sticky-top ">
       <Container>

@@ -46,14 +46,13 @@ const FiveDaysForecast = ({ weatherData5Days, units }) => {
             className="bg-blue-dark"
             onClick={() => {
               chooseDay(date);
-              console.log(selectedDate);
             }}
           >
             {date}
           </Button>
         ))}
       </ButtonGroup>
-      <Col id="forecast-display">
+      <Col id="forecast-display" className="shadow-effect">
         {!selectedDate && (
           <ListGroup>
             {weatherData5Days.map((day) => (

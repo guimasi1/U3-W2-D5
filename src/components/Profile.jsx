@@ -53,7 +53,7 @@ const Profile = () => {
     <Container id="profile" className="mt-5">
       <Row>
         <Col lg={{ span: 8, offset: 2 }}>
-          <Card>
+          <Card className="shadow-effect">
             <Card.Body>
               <Form
                 onKeyDown={(e) => {
@@ -63,7 +63,7 @@ const Profile = () => {
                   }
                 }}
               >
-                <Form.Group className="mb-3" controlId="favourite-cities">
+                <Form.Group className="mb-3 " controlId="favourite-cities">
                   <Form.Label className="fw-bold">
                     Add favourite cities
                   </Form.Label>
