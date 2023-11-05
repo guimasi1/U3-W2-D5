@@ -62,6 +62,8 @@ body {
 
 #forecast-display {
   height: 500px;
+  background-color: white;
+  border-radius: 1em;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
@@ -71,6 +73,13 @@ body {
 #footer {
   padding-top: 20em;
   padding-bottom: 6em;
+}
+
+#card-main,
+.shadow-effect {
+  box-shadow: 5px 5px 20px #040418;
+
+  border: none;
 }
 
 @import "bootstrap-container/scss/bootstrap";

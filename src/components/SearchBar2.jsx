@@ -107,7 +107,7 @@ const SearchBar = () => {
       });
   };
 
-  const [units, setUnits] = useState("");
+  const [units, setUnits] = useState("metric");
   const changeUnits = (unit) => {
     setUnits(unit.toLowerCase());
   };

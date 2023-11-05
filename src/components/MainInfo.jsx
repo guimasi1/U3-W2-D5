@@ -4,10 +4,8 @@ import { ThermometerHigh, ThermometerLow } from "react-bootstrap-icons";
 
 const MainInfo = ({ weatherData, cityImage, units, pollutionData }) => {
   return (
-    <Card className="border border-black ">
-      <div className="d-flex justify-content-center ">
-        <Card.Img variant="top" src={cityImage} />
-      </div>
+    <Card id="card-main" className="border border-black rounded-5 pb-3 ">
+      <Card.Img className="rounded-top-5" variant="top" src={cityImage} />
       <Card.Body>
         <Card.Title className="text-center">
           <h3 className="fs-2 fw-bold ">{weatherData.name}</h3>

@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 
 const FavouriteCities = ({ cities, removeCity }) => {
   return (
-    <div>
-      <ListGroup className="mt-4">
+    <div className="shadow-effect">
+      <ListGroup className="mt-4 ">
         <h4 className="text-center ">Favourite Cities</h4>
         {cities.map((city, i) => {
           return (

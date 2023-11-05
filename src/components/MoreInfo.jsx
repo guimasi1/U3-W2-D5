@@ -35,7 +35,7 @@ const MoreInfo = ({ weatherData, units }) => {
         </Col>
 
         <Col className="my-3 py-1">
-          <ListGroup>
+          <ListGroup className="shadow-effect">
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <DropletFill className="mb-1" /> Humidity:
@@ -67,7 +67,7 @@ const MoreInfo = ({ weatherData, units }) => {
           </ListGroup>
         </Col>
         <Col className="my-3 py-1">
-          <ListGroup>
+          <ListGroup className="shadow-effect">
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <CloudsFill className="mb-1 me-1" />
