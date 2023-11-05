@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import ShowWeather from "./ShowWeather";
 import CitiesDropdown from "./CitiesDropdown";
+import Alert from "react-bootstrap/Alert";
+import Spinner from "react-bootstrap/Spinner";
 
 const apiKey = "78a17f796cc68d0511d622fe90ba4e4b";
 const pexelKey = "5RKicZfAEfo8m1JX6yT1vyTmAYDVq4777xWQyZfx1QBRZM4xWq7CeS1i";
@@ -19,7 +21,9 @@ const SearchBar = () => {
     const initialValue = JSON.parse(saved);
     return initialValue || [];
   });
-
+  const [alert, setAlert] = useState(false);
+  const [isItFirstLog, setIsItFirstLog] = useState(true);
+  const [spinner, setSpinner] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
   const handleCitySelect = (city) => {
     setSelectedCity(city);
@@ -62,6 +66,7 @@ const SearchBar = () => {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
+    setIsItFirstLog(false);
   }, []);
 
   useEffect(() => {
@@ -69,6 +74,7 @@ const SearchBar = () => {
   }, [selectedCity]);
 
   const getCoordinates = (selectedCity) => {
+    setSpinner(true);
     fetch(
       selectedCity
         ? `http://api.openweathermap.org/geo/1.0/direct?q=${selectedCity}&limit=1&appid=${apiKey}`
@@ -76,8 +82,14 @@ const SearchBar = () => {
     )
       .then((res) => {
         if (res.ok) {
+          setAlert(false);
+          setSpinner(false);
           return res.json();
         } else {
+          if (!isItFirstLog) {
+            setAlert(true);
+          }
+          setSpinner(false);
           throw new Error("Something went wrong!");
         }
       })
@@ -98,8 +110,13 @@ const SearchBar = () => {
         `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`
       );
       if (!res.ok) {
+        setSpinner(false);
+
         throw new Error("Something went wrong!");
       }
+      setAlert(false);
+      setSpinner(false);
+
       const data = await res.json();
       console.log("Data:", data);
       setWeatherData(data);
@@ -114,9 +131,14 @@ const SearchBar = () => {
         `https://api.openweathermap.org/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`
       );
       if (!res.ok) {
+        setSpinner(false);
+
         throw new Error("Something went wrong!");
       }
       const data5days = await res.json();
+      setAlert(false);
+      setSpinner(false);
+
       setWeatherData5days(data5days.list);
       // const [date, time] = data5days.list[0].dt_txt.split(" ");
     } catch (err) {
@@ -161,6 +183,11 @@ const SearchBar = () => {
 
   return (
     <div>
+      {alert && (
+        <Alert variant="danger" className="text-center">
+          Something went wrong
+        </Alert>
+      )}
       <Form
         onSubmit={(e) => {
           e.preventDefault();
@@ -201,11 +228,20 @@ const SearchBar = () => {
         handleCitySelect={handleCitySelect}
         favouriteCities={favouriteCities}
       />
-      <ShowWeather
-        weatherData={weatherData}
-        cityImage={cityImage}
-        weatherData5Days={weatherData5Days}
-      />
+      {spinner && (
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>{" "}
+        </div>
+      )}
+      {!spinner && (
+        <ShowWeather
+          weatherData={weatherData}
+          cityImage={cityImage}
+          weatherData5Days={weatherData5Days}
+        />
+      )}
     </div>
   );
 };

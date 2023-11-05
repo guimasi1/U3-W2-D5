@@ -6,7 +6,7 @@ const FiveDaysForecast = ({ weatherData5Days }) => {
   //   if (weatherData5Days) {
   return (
     <Row className="mt-4">
-      <h3 className="text-center mb-4">Forecast</h3>
+      <h3 className="text-center mb-4">5 days - Forecast</h3>
       <Col id="forecast-display">
         <ListGroup>
           {weatherData5Days.map((day) => (

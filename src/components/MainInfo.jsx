@@ -24,7 +24,7 @@ const MainInfo = ({ weatherData, cityImage }) => {
         </h6>
         <div className="text-center flex-grow-1 ">
           Current temperature: <br />
-          <div className="d-flex align-items-center justify-content-center mt-1 fs-1">
+          <div className="d-flex align-items-center justify-content-center mt-1 fs-1 fw-bold ">
             {weatherData.main.temp}° C
           </div>
         </div>
