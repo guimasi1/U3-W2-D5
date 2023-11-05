@@ -8,7 +8,9 @@ const MainInfo = ({ weatherData, cityImage, units, pollutionData }) => {
       <Card.Img className="rounded-top-5" variant="top" src={cityImage} />
       <Card.Body>
         <Card.Title className="text-center">
-          <h3 className="fs-2 fw-bold ">{weatherData.name}</h3>
+          <h3 className="fs-2 fw-bold ">
+            {weatherData.name}, {weatherData.sys.country}
+          </h3>
         </Card.Title>
         <div className="d-flex justify-content-center">
           <img
