@@ -8,7 +8,9 @@ const MyNavbar = () => {
     <Navbar expand="lg" className="bg-blue-dark sticky-top ">
       <Container>
         <Navbar.Brand className="text-white" href="#home">
-          WeatherNow
+          <Link className="text-decoration-none text-white" to="/">
+            WeatherNow
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
