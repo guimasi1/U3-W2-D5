@@ -83,6 +83,7 @@ const SearchBar = () => {
       .then((res) => {
         if (res.ok) {
           setAlert(false);
+
           setSpinner(false);
           return res.json();
         } else {
@@ -178,6 +179,7 @@ const SearchBar = () => {
   useEffect(() => {
     getWeather();
     getWeather5Days();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 

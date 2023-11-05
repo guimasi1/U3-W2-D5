@@ -10,7 +10,7 @@ const FavouriteCities = ({ cities, removeCity }) => {
           return (
             <ListGroup.Item
               key={i}
-              className="d-flex justify-content-between align-items-center "
+              className="d-flex justify-content-between align-items-center rounded mb-1  "
             >
               <div>
                 {city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()}
