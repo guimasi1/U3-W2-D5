@@ -26,7 +26,7 @@ const MoreInfo = ({ weatherData }) => {
   const minutes2 = formatTime(date2.getMinutes());
 
   return (
-    <Container fluid className="border border-1 border-black  mt-2 rounded-2">
+    <Container fluid className="mt-2 rounded-2">
       <Row>
         <Col xs={12}>
           <div className="mt-4">

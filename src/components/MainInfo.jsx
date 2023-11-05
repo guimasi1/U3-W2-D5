@@ -1,19 +1,15 @@
 import Card from "react-bootstrap/Card";
-import {
-  Thermometer,
-  ThermometerHigh,
-  ThermometerLow,
-} from "react-bootstrap-icons";
+import { ThermometerHigh, ThermometerLow } from "react-bootstrap-icons";
 
-const MainInfo = ({ weatherData }) => {
+const MainInfo = ({ weatherData, cityImage }) => {
   return (
     <Card className="border border-black ">
       <div className="d-flex justify-content-center ">
-        <Card.Img variant="top" src="" />
+        <Card.Img variant="top" src={cityImage} />
       </div>
       <Card.Body>
         <Card.Title className="text-center">
-          <h3>{weatherData.name}</h3>
+          <h3 className="fs-2 fw-bold ">{weatherData.name}</h3>
         </Card.Title>
         <div className="d-flex justify-content-center">
           <img
@@ -28,8 +24,7 @@ const MainInfo = ({ weatherData }) => {
         </h6>
         <div className="text-center flex-grow-1 ">
           Current temperature: <br />
-          <div className="d-flex align-items-center justify-content-center mt-1 ">
-            <Thermometer />
+          <div className="d-flex align-items-center justify-content-center mt-1 fs-1">
             {weatherData.main.temp}° C
           </div>
         </div>

@@ -5,46 +5,56 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { useEffect, useState } from "react";
-import { ListGroup, ListGroupItem } from "react-bootstrap";
+import FavouriteCities from "./FavouriteCities";
+import Footer from "./Footer";
 
 const Profile = () => {
-  const [userNameInput, setUsernameInput] = useState("");
-  const [userName, setUsername] = useState("");
+  // const [userNameInput, setUsernameInput] = useState("");
+  // const [userName, setUsername] = useState("");
   const [cityInput, setCityInput] = useState("");
+  // const [cities, setCities] = useState(() => {
+  //   const saved = localStorage.getItem("cities");
+  //   const initialValue = JSON.parse(saved);
+  //   console.log(initialValue, "initial ");
+  //   return initialValue || [];
+  // });
   const [cities, setCities] = useState(() => {
-    const saved = localStorage.getItem("cities");
-    const initialValue = JSON.parse(saved);
-    console.log(initialValue, "initial ");
+    const savedCities = localStorage.getItem("cities");
+    const initialValue = JSON.parse(savedCities);
     return initialValue || [];
   });
 
+  const removeCity = (index) => {
+    const updatedCities = [...cities];
+    updatedCities.splice(index, 1);
+
+    localStorage.setItem("cities", JSON.stringify(updatedCities));
+
+    setCities(updatedCities);
+  };
+
   const handleForm = () => {
-    setUsername(userNameInput);
+    // setUsername(userNameInput);
     setCities([...cities, cityInput]);
-    setUsernameInput("");
+    // setUsernameInput("");
     setCityInput("");
   };
 
   useEffect(() => {
     localStorage.setItem("cities", JSON.stringify(cities));
-    console.log(localStorage.getItem("cities"));
   }, [cities]);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("cities");
-    const initialValue = JSON.parse(saved);
-    setCities(initialValue);
-  }, []);
+  // useEffect(() => {
+  //   localStorage.setItem("username", userName);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [userName]);
 
   return (
-    <Container className="mt-5">
+    <Container id="profile" className="mt-5">
       <Row>
         <Col lg={{ span: 8, offset: 2 }}>
           <Card>
             <Card.Body>
-              <Card.Title className="fs-1">
-                Your Username: {userName}
-              </Card.Title>
               <Form
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
@@ -53,21 +63,10 @@ const Profile = () => {
                   }
                 }}
               >
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Set your Username</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={userNameInput}
-                    onChange={(e) => {
-                      setUsernameInput(e.target.value);
-                    }}
-                  />
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="favourite-cities">
-                  <Form.Label>Add favourite cities</Form.Label>
+                  <Form.Label className="fw-bold">
+                    Add favourite cities
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     value={cityInput}
@@ -84,7 +83,7 @@ const Profile = () => {
                     handleForm();
                   }}
                   className="w-50"
-                  variant="primary"
+                  variant="success"
                 >
                   Save
                 </Button>
@@ -93,18 +92,14 @@ const Profile = () => {
           </Card>
         </Col>
       </Row>
-      <Row>
-        <Col lg={{ span: 8, offset: 2 }}>
-          <div>
-            <h4 className="text-center mt-4 ">Favourite Cities</h4>
-            <ListGroup>
-              {/* {cities.map((city) => {
-                return <li>{city}</li>;
-              })} */}
-            </ListGroup>
-          </div>
-        </Col>
-      </Row>
+
+      {cities && (
+        <Row>
+          <Col lg={{ span: 8, offset: 2 }}>
+            <FavouriteCities cities={cities} removeCity={removeCity} />
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };

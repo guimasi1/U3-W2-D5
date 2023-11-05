@@ -9,16 +9,19 @@ import Profile from "./components/Profile";
 
 function App() {
   return (
-    <BrowserRouter>
-      <div>
+    <div
+      id="all"
+      className="bg-blue text-white d-flex flex-column justify-content-between"
+    >
+      <BrowserRouter>
         <MyNavbar />
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+        <Footer className="flex-grow-1" />
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -2,8 +2,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import ShowWeather from "./ShowWeather";
+import CitiesDropdown from "./CitiesDropdown";
 
 const apiKey = "78a17f796cc68d0511d622fe90ba4e4b";
+const pexelKey = "5RKicZfAEfo8m1JX6yT1vyTmAYDVq4777xWQyZfx1QBRZM4xWq7CeS1i";
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState("");
@@ -11,6 +13,22 @@ const SearchBar = () => {
   const [coordinates, setCoordinates] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [weatherData5Days, setWeatherData5days] = useState([]);
+  const [cityImage, setCityImage] = useState("");
+  const [favouriteCities, setFavouriteCities] = useState(() => {
+    const saved = localStorage.getItem("cities");
+    const initialValue = JSON.parse(saved);
+    return initialValue || [];
+  });
+
+  const [selectedCity, setSelectedCity] = useState("");
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+  };
+
+  useEffect(() => {
+    getCoordinates(selectedCity);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCity]);
 
   //   const getCoordinates = async () => {
   //     try {
@@ -30,10 +48,31 @@ const SearchBar = () => {
   //       console.log("An error occurred:", err);
   //     }
   //   };
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+        setCoordinates({
+          lat: latitude,
+          lon: longitude,
+        });
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
 
-  const getCoordinates = () => {
+  useEffect(() => {
+    getCityImage(selectedCity);
+  }, [selectedCity]);
+
+  const getCoordinates = (selectedCity) => {
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=1&appid=${apiKey}`
+      selectedCity
+        ? `http://api.openweathermap.org/geo/1.0/direct?q=${selectedCity}&limit=1&appid=${apiKey}`
+        : `http://api.openweathermap.org/geo/1.0/direct?q=${searchValue}&limit=1&appid=${apiKey}`
     )
       .then((res) => {
         if (res.ok) {
@@ -85,6 +124,30 @@ const SearchBar = () => {
     }
   };
 
+  const getCityImage = (city) => {
+    fetch(`https://api.pexels.com/v1/search?query=${city}`, {
+      method: "GET",
+      headers: {
+        Authorization: pexelKey,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("ERROR");
+        }
+      })
+
+      .then((data) => {
+        console.log(data.photos[0].src.landscape);
+        setCityImage(data.photos[0].src.landscape);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
   //   useEffect(() => {
   //     getWeather5Days();
   //     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,7 +156,6 @@ const SearchBar = () => {
   useEffect(() => {
     getWeather();
     getWeather5Days();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coordinates]);
 
@@ -103,12 +165,13 @@ const SearchBar = () => {
         onSubmit={(e) => {
           e.preventDefault();
           getCoordinates();
+          getCityImage(searchValue);
           setInputValue("");
         }}
       >
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label className="d-flex justify-content-center ">
-            <span>Search for your city</span>
+            <h4>Search for your city</h4>
           </Form.Label>
           <Form.Control
             type="text"
@@ -123,7 +186,7 @@ const SearchBar = () => {
         </Form.Group>
         <div className="d-flex justify-content-center">
           <Button
-            className="w-50"
+            className="w-50 bg-blue-dark"
             onClick={(e) => {
               e.preventDefault();
               getCoordinates();
@@ -134,8 +197,13 @@ const SearchBar = () => {
           </Button>
         </div>
       </Form>
+      <CitiesDropdown
+        handleCitySelect={handleCitySelect}
+        favouriteCities={favouriteCities}
+      />
       <ShowWeather
         weatherData={weatherData}
+        cityImage={cityImage}
         weatherData5Days={weatherData5Days}
       />
     </div>
