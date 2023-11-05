@@ -2,7 +2,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 
-const FiveDaysForecast = ({ weatherData5Days }) => {
+const FiveDaysForecast = ({ weatherData5Days, units }) => {
   //   if (weatherData5Days) {
   return (
     <Row className="mt-4">
@@ -27,7 +27,9 @@ const FiveDaysForecast = ({ weatherData5Days }) => {
                     />
                   </div>
                 </div>{" "}
-                <div>{day.main.temp}°C</div>
+                <div>
+                  {day.main.temp} {units === "metric" ? "C" : "F"}
+                </div>
               </div>
             </ListGroup.Item>
           ))}

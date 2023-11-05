@@ -13,7 +13,7 @@ import {
   Wind,
 } from "react-bootstrap-icons";
 
-const MoreInfo = ({ weatherData }) => {
+const MoreInfo = ({ weatherData, units }) => {
   const formatTime = (num) => (num < 10 ? "0" + num : num);
   const timestamp = weatherData.sys.sunrise * 1000;
   const timestamp2 = weatherData.sys.sunset * 1000;
@@ -80,14 +80,19 @@ const MoreInfo = ({ weatherData }) => {
                 <Wind className="mb-1 me-1" />
                 Wind:
               </span>{" "}
-              <span>{weatherData.wind.speed} m/s</span>
+              <span>
+                {weatherData.wind.speed} {units === "metric" ? "m/s" : "MPH"}
+              </span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>
                 <ThermometerHalf className="mb-1 me-1" />
                 Feels like:
               </span>{" "}
-              <span> {weatherData.main.feels_like}°C</span>
+              <span>
+                {" "}
+                {weatherData.main.feels_like} {units === "metric" ? "C" : "F"}
+              </span>
             </ListGroup.Item>
             <ListGroup.Item className="d-flex justify-content-between align-items-center">
               <span>

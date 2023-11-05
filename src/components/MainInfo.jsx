@@ -1,7 +1,7 @@
 import Card from "react-bootstrap/Card";
 import { ThermometerHigh, ThermometerLow } from "react-bootstrap-icons";
 
-const MainInfo = ({ weatherData, cityImage }) => {
+const MainInfo = ({ weatherData, cityImage, units }) => {
   return (
     <Card className="border border-black ">
       <div className="d-flex justify-content-center ">
@@ -25,7 +25,7 @@ const MainInfo = ({ weatherData, cityImage }) => {
         <div className="text-center flex-grow-1 ">
           Current temperature: <br />
           <div className="d-flex align-items-center justify-content-center mt-1 fs-1 fw-bold ">
-            {weatherData.main.temp}° C
+            {weatherData.main.temp}° {units === "metric" ? "C" : "F"}
           </div>
         </div>
         <div className="d-flex justify-content-around">
@@ -33,14 +33,14 @@ const MainInfo = ({ weatherData, cityImage }) => {
             Min <br />
             <div className="d-flex align-items-center justify-content-center mt-1 ">
               <ThermometerLow id="low-temperature" />
-              {weatherData.main.temp_min}°C
+              {weatherData.main.temp_min}° {units === "metric" ? "C" : "F"}
             </div>
           </div>
           <div className="text-center">
             Max <br />
             <div className="d-flex align-items-center justify-content-center mt-1 ">
               <ThermometerHigh id="high-temperature" />
-              {weatherData.main.temp_max}°C
+              {weatherData.main.temp_max}° {units === "metric" ? "C" : "F"}
             </div>
           </div>
         </div>

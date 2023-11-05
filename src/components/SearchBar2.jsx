@@ -5,6 +5,7 @@ import ShowWeather from "./ShowWeather";
 import CitiesDropdown from "./CitiesDropdown";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
+import ChooseUnits from "./ChooseUnits";
 
 const apiKey = "78a17f796cc68d0511d622fe90ba4e4b";
 const pexelKey = "5RKicZfAEfo8m1JX6yT1vyTmAYDVq4777xWQyZfx1QBRZM4xWq7CeS1i";
@@ -25,6 +26,7 @@ const SearchBar = () => {
   const [isItFirstLog, setIsItFirstLog] = useState(true);
   const [spinner, setSpinner] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
+
   const handleCitySelect = (city) => {
     setSelectedCity(city);
   };
@@ -105,10 +107,22 @@ const SearchBar = () => {
       });
   };
 
+  const [units, setUnits] = useState("");
+  const changeUnits = (unit) => {
+    setUnits(unit.toLowerCase());
+  };
+  useEffect(() => {
+    getWeather();
+    getWeather5Days();
+  }, [units]);
   const getWeather = async () => {
     try {
       const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${
+          coordinates.lat
+        }&lon=${coordinates.lon}&appid=${apiKey}&units=${
+          units ? units : "metric"
+        }`
       );
       if (!res.ok) {
         setSpinner(false);
@@ -230,6 +244,7 @@ const SearchBar = () => {
         handleCitySelect={handleCitySelect}
         favouriteCities={favouriteCities}
       />
+      <ChooseUnits changeUnits={changeUnits} />
       {spinner && (
         <div className="text-center">
           <Spinner animation="border" role="status">
@@ -242,6 +257,7 @@ const SearchBar = () => {
           weatherData={weatherData}
           cityImage={cityImage}
           weatherData5Days={weatherData5Days}
+          units={units}
         />
       )}
     </div>
